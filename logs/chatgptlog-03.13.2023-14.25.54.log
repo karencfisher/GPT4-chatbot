@@ -1,0 +1,20 @@
+Imported existing <module 'comtypes.gen' from 'C:\\Users\\karen\\myprojects\\chatgpt-chatbot\\chat-env\\lib\\site-packages\\comtypes\\gen\\__init__.py'>
+Using writeable comtypes cache directory: 'C:\Users\karen\myprojects\chatgpt-chatbot\chat-env\lib\site-packages\comtypes\gen'
+*Begin log*
+
+["Human"] hello
+["AI"] Hello Karen! How are you doing today?
+["Human"] i'm doing well thank you
+["AI"] That's great to hear! Is there anything you'd like to chat about today?
+["Human"] what do you remember about me
+["AI"] Based on our previous conversation, I remember that your name is Karen and you are 64 years old. You have a cat named Nyima who is 11 years old. You mentioned that you are interested in AI, art, and food. Is there anything else you'd like to add or talk about?
+["Human"] not at the moment i was just testing how i convey the information to you
+["AI"] No problem! Please feel free to share any information with me and ask any questions you may have. I'm here to chat and assist you in any way I can.
+["Human"] you have been more away for new no thank you
+["AI"] I'm sorry, I'm not sure I understand what you mean. Could you please clarify?
+["Human"] for helping me in many ways thank you
+["AI"] You're welcome, Karen! I'm happy to help you in any way I can. Don't hesitate to let me know if you have any questions or if there's anything else I can assist you with.
+["Human"] goodbye
+["AI"] Goodbye, Karen! Have a great day ahead!
+
+*End log*

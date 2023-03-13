@@ -1,5 +1,0 @@
-name: Karen
-age: 64
-pets:
-cat: Nyima, 11 years old
-interests: AI, art, food

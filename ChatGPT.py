@@ -22,10 +22,14 @@ from tts import Text2Speech
 
 
 class ChatGPT:
-    def __init__(self, logger, pretext=''):
+    def __init__(self, logger):
         # fetch API key from environment
         load_dotenv()
         self.secret_key = os.getenv('SECRET_KEY')
+
+        # get configuration
+        with open('chatgpt_config.json', 'r') as FP:
+            self.config = json.load(FP)
 
         # intialize speech recognition
         self.recog = SpeechRecognize()
@@ -33,13 +37,17 @@ class ChatGPT:
         # Initialize TTS
         self.tts = Text2Speech()
 
-        # get configuration
-        with open('chatgpt_config.json', 'r') as FP:
-            self.config = json.load(FP)
+        # get pretext and profile
+        with open('chat_pretext.txt', 'r') as PRETEXT:
+            pretext = PRETEXT.read()
+
+        with open('chat_user_profile.json', 'r') as PROFILE:
+            self.profile = json.load(PROFILE)
 
         # set up context
         self.context = Context(response_tokens=self.config['max_tokens'], 
-                               pretext=pretext)
+                               pretext=pretext,
+                               profile=self.profile)
 
         self.logger = logger
         self.logger.info("*Begin log*\n")
@@ -126,7 +134,7 @@ def main():
 
     # Inistantiate GPTChat and run loop
     print('Initializing...', end='')
-    gpt_chat = ChatGPT(logger, pretext=pretext)
+    gpt_chat = ChatGPT(logger)
     gpt_chat.loop()
 
 

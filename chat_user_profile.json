@@ -1,0 +1,5 @@
+{"name": "Karen",
+ "age": 64,
+ "pets": [{"species": "cat", "name": "Nyima", "age": 11}],
+ "interests": ["AI", "art", "food"]
+}

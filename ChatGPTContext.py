@@ -16,17 +16,30 @@ import tiktoken as tt
 
 
 class Context:
-    def __init__(self, response_tokens, max_tokens=4096, pretext=''):
+    def __init__(self, pretext, profile, response_tokens=128, max_tokens=4096):
         self.__context = []
-        if len(pretext) > 0:
-            self.__pretext = {'role': 'system', 'content': pretext}
-            
-        # Store pretext and it's length in tokens
-        self.__encoder = tt.get_encoding('p50k_base')
-        pretext_enc = self.__encoder.encode(pretext)
+        self.__max_tokens = max_tokens
+        self.__response_tokens = response_tokens
 
-        # Store maximum number of tokens in the context
-        self.__max_context = max_tokens - len(pretext_enc) - response_tokens
+        # get system prompt (pretext)
+        self.__encoder = tt.get_encoding('p50k_base')
+        pretext, self.__max_context = self.update_prompt(pretext, profile)
+        self.__pretext = {'role': 'system', 'content': pretext}
+
+    def update_prompt(self, pretext, profile):
+        # Unpack dictionary to text version of profile
+        items = [f'{key}: {value}' for key, value in profile.items()]
+        profile_txt = '\n'.join(items)
+        
+        # assemble system prompt and get count of tokens
+        sys_prompt = f'{pretext}{profile_txt}'
+        sys_prompt_enc = self.__encoder.encode(sys_prompt)
+        num_tokens = len(sys_prompt_enc)
+
+        # report remaining available tokens after system prompt and
+        # anticipated maximum response length
+        max_context = self.__max_tokens - (num_tokens + self.__response_tokens)
+        return sys_prompt, max_context
 
     def get_prompt(self):
         '''
