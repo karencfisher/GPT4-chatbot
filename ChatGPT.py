@@ -98,25 +98,22 @@ class ChatGPT:
         # update profile
         with open('chat_user_profile.json', 'w') as PROFILE:
             json.dump(self.__profile, PROFILE)
-
         print('\rExiting...')
 
     def __filterResponse(self, text):
+        # extract kv_pair if found
         pattern = re.compile(r'{"\w+":\s*"[^"]+"}')
         match = pattern.search(text)
         if match:
             kv_pair = match.group()
-            print(f"Key/value pair extracted: {kv_pair}")
-            self.__profile
+            self.logger.info(f"Key/value pair extracted: {kv_pair}")
+            print(f'Key/value pair extracted: {kv_pair}')
             
-            # Add the key/value pair to your database or data structure
+            # Add the key/value pair to data structure
             kv = json.loads(kv_pair)
             key, value = list(kv.items())[0]
             self.__profile[key] = value
-            return re.sub(pattern, '', text).strip()
-        else:
-            print("No key/value pair found.")
-        return text
+        return re.sub(pattern, '', text).strip()
 
     def __prompt_gpt(self, prompt):
         '''
