@@ -1,0 +1,32 @@
+Imported existing <module 'comtypes.gen' from 'C:\\Users\\karen\\myprojects\\chatgpt-chatbot\\chat-env\\lib\\site-packages\\comtypes\\gen\\__init__.py'>
+Using writeable comtypes cache directory: 'C:\Users\karen\myprojects\chatgpt-chatbot\chat-env\lib\site-packages\comtypes\gen'
+*Begin log*
+
+[AI] Hello Karen! It's great to meet you. How are you today?
+["Human"] Good! Just hanging out with my cat.
+[AI] That sounds lovely! What is your cat's name?
+["Human"] My cat's name is Nyima.
+Key/value pair extracted: {"cat_name": "Nyima"}
+[AI] Thank you for telling me about Nyima. How long have you had her?
+["Human"] She is 11 years old.
+[AI] Wow, that's impressive! Nyima must be a dear companion to you.
+["Human"] Also waiting to visit my friend.
+[AI] That sounds nice. Where does your friend live?
+["Human"] she lives in Moab
+[AI] Oh, that's great! Do you have any plans for your visit with your friend in Moab?
+["Human"] maybe have dinnet
+[AI] That sounds like a great idea! Do you have a favorite restaurant in Moab, or are you looking for recommendations?
+["Human"] My favorite restaraunt is the Moab Diner
+[AI] The Moab Diner sounds like a nice place to have dinner. What is your favorite dish at the diner?
+["Human"] my favorite meal is cheeseburger
+[AI] That sounds delicious! Do you like to have any toppings on your cheeseburger, like bacon or avocado?
+["Human"] bacon for sure! 
+[AI] Bacon on a cheeseburger is definitely a classic combination. Do you prefer your cheeseburger with french fries or onion rings, or do you like something else as a side dish?
+["Human"] french fries, of course! Or half and half french fries and onion rings
+[AI] That sounds like a great combination! Well, Karen, it was nice chatting with you today. If you have any other questions or topics you want to talk about, feel free to ask me!
+["Human"] I will
+[AI] Alright then, have a great day Karen and give some cuddles to Nyima for me!
+["Human"] goodbye
+[AI] Goodbye!
+
+*End log*

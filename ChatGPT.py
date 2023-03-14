@@ -90,7 +90,7 @@ class ChatGPT:
                 text = input('>> ')
 
             # update context and get prompt
-            self.logger.info(f'["Human"] {text}')
+            self.logger.info(f'[Human] {text}')
             self.context.add(role='user', text=text)
 
         self.logger.info('\n*End log*')
