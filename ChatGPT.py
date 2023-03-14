@@ -10,6 +10,7 @@ to reply, and then the program exits.
 
 '''
 import os
+import re
 import json
 import logging
 from datetime import datetime
@@ -42,12 +43,13 @@ class ChatGPT:
             pretext = PRETEXT.read()
 
         with open('chat_user_profile.json', 'r') as PROFILE:
-            self.profile = json.load(PROFILE)
+            self.__profile_json = PROFILE.read()
+        self.__profile = json.loads(self.__profile_json)
 
         # set up context
         self.context = Context(response_tokens=self.config['max_tokens'], 
                                pretext=pretext,
-                               profile=self.profile)
+                               profile=self.__profile)
 
         self.logger = logger
         self.logger.info("*Begin log*\n")
@@ -68,6 +70,7 @@ class ChatGPT:
             # send prompt to GPT-3
             prompt = self.context.get_prompt()
             ai_text, n_tokens = self.__prompt_gpt(prompt)
+            ai_text = self.__filterResponse(ai_text)
 
             # speak and log response
             self.tts.speak(ai_text)
@@ -85,6 +88,21 @@ class ChatGPT:
 
         self.logger.info('\n*End log*')
         print('\rExiting...')
+
+    def __filterResponse(self, text):
+        pattern = re.compile(r'{"\w+":\s*"[^"]+"}')
+        match = pattern.search(text)
+        if match:
+            kv_pair = match.group()
+            print(f"Key/value pair extracted: {kv_pair}")
+            self.__profile
+            
+            # Add the key/value pair to your database or data structure
+            key, value = json.loads(kv_pair)
+            self.__profile[key] = value
+        else:
+            print("No key/value pair found.")
+        return text
 
     def __prompt_gpt(self, prompt):
         '''

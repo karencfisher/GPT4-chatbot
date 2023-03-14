@@ -23,23 +23,21 @@ class Context:
 
         # get system prompt (pretext)
         self.__encoder = tt.get_encoding('p50k_base')
-        pretext, self.__max_context = self.update_prompt(pretext, profile)
+        num_pretext_tokens = len(self.__encoder.encode(pretext))
         self.__pretext = {'role': 'system', 'content': pretext}
+        user_profile, num_intro_tokens = self.update_prompt(profile)
+        self.__intro = {'role': 'user', 'content': user_profile}
+        self.__max_context = max_tokens - (num_pretext_tokens + num_intro_tokens)
 
-    def update_prompt(self, pretext, profile):
+    def update_prompt(self, profile):
         # Unpack dictionary to text version of profile
         items = [f'{key}: {value}' for key, value in profile.items()]
         profile_txt = '\n'.join(items)
         
-        # assemble system prompt and get count of tokens
-        sys_prompt = f'{pretext}{profile_txt}'
-        sys_prompt_enc = self.__encoder.encode(sys_prompt)
-        num_tokens = len(sys_prompt_enc)
+        # get count of tokens
+        num_tokens = len(self.__encoder.encode(profile_txt))
 
-        # report remaining available tokens after system prompt and
-        # anticipated maximum response length
-        max_context = self.__max_tokens - (num_tokens + self.__response_tokens)
-        return sys_prompt, max_context
+        return profile_txt, num_tokens
 
     def get_prompt(self):
         '''
@@ -55,6 +53,7 @@ class Context:
             if n_tokens >= self.__max_context:
                 break
             context.append(self.__context[indx]['message'])
+        context.append(self.__intro)
         context.append(self.__pretext)
         # return concatenated pretext and context
         return context[::-1]

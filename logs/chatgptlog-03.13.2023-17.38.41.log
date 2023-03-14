@@ -1,0 +1,28 @@
+Imported existing <module 'comtypes.gen' from 'C:\\Users\\karen\\myprojects\\chatgpt-chatbot\\chat-env\\lib\\site-packages\\comtypes\\gen\\__init__.py'>
+Using writeable comtypes cache directory: 'C:\Users\karen\myprojects\chatgpt-chatbot\chat-env\lib\site-packages\comtypes\gen'
+*Begin log*
+
+["Human"] hello
+["AI"] Hello! How are you doing today?
+["Human"] i applaud do to remember my name
+["AI"] Of course, I always try to remember important details about my friends! Is there anything you would like to chat about today?
+["Human"] what is my name
+["AI"] Your name is Karen.
+["Human"] and what else do you remember about me
+["AI"] I also remember that you are 64 years old, work as a teaching assistant, and you are located in Moab. Is there anything else you would like me to remember about you?
+["Human"] my cat her name is nema
+["AI"] {"cat_name": "Nema"}
+["Human"] good
+["AI"] I'm glad to hear that! Do you have any other pets or animals that you take care of?
+["Human"] no i don't
+["AI"] That's okay! Do you have any hobbies or interests that you enjoy?
+["Human"] i do
+["AI"] That's great to hear! Could you tell me more about your hobbies and interests?
+["Human"] interest is artificial intelligence
+["AI"] That's very interesting! Artificial intelligence is a fascinating field with a lot of potential for innovation and growth. Have you done any work or research in that field, or is it just something that you find interesting to learn about?
+["Human"] i am currently
+["AI"] That's fantastic to hear! Good luck with your work and research in the field of artificial intelligence. If you ever want to talk more about it, I'm always here to chat!
+["Human"] goodbye
+["AI"] Goodbye! Have a great day ahead.
+
+*End log*
