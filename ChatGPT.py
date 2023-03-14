@@ -10,6 +10,7 @@ to reply, and then the program exits.
 
 '''
 import os
+import sys
 import re
 import json
 import logging
@@ -54,27 +55,26 @@ class ChatGPT:
         self.logger = logger
         self.logger.info("*Begin log*\n")
 
-    def loop(self):
+    def loop(self, voice=True):
         '''
         The main loop
 
         Loops until the user says simply "goodbye" and model has responded
         to that prompt.
         '''
-        text = 'hello'
+        text = ''
         while True:
-            # update context and get prompt
-            self.logger.info(f'["Human"] {text}')
-            self.context.add(role='user', text=text)
-
             # send prompt to GPT-3
             prompt = self.context.get_prompt()
             ai_text, n_tokens = self.__prompt_gpt(prompt)
             ai_text = self.__filterResponse(ai_text)
 
             # speak and log response
-            self.tts.speak(ai_text)
-            self.logger.info(f'["AI"] {ai_text.strip()}')
+            if voice:
+                self.tts.speak(ai_text)
+            else:
+                print(f'{ai_text}')
+            self.logger.info(f'[AI] {ai_text.strip()}')
             self.context.add(role='assistant',
                              text=ai_text, 
                              n_tokens=n_tokens)
@@ -84,9 +84,21 @@ class ChatGPT:
                 break
 
             # Listen for user input
-            text = self.recog.speech_to_text()
+            if voice:
+                text = self.recog.speech_to_text()
+            else:
+                text = input('>> ')
+
+            # update context and get prompt
+            self.logger.info(f'["Human"] {text}')
+            self.context.add(role='user', text=text)
 
         self.logger.info('\n*End log*')
+
+        # update profile
+        with open('chat_user_profile.json', 'w') as PROFILE:
+            json.dump(self.__profile, PROFILE)
+
         print('\rExiting...')
 
     def __filterResponse(self, text):
@@ -98,8 +110,10 @@ class ChatGPT:
             self.__profile
             
             # Add the key/value pair to your database or data structure
-            key, value = json.loads(kv_pair)
+            kv = json.loads(kv_pair)
+            key, value = list(kv.items())[0]
             self.__profile[key] = value
+            return re.sub(pattern, '', text).strip()
         else:
             print("No key/value pair found.")
         return text
@@ -129,6 +143,9 @@ class ChatGPT:
 
 
 def main():
+    if len(sys.argv) > 1:
+        voice = sys.argv[1] != 'novoice'
+
     # initialize logging
     now = datetime.now()
     logfile = f'chatgptlog-{now.strftime("%m.%d.%Y-%H.%M.%S")}.log'
@@ -138,22 +155,10 @@ def main():
                         format='%(message)s')
     logger = logging.getLogger()
 
-    # If pretext file exists, load it
-    pretext = ''
-    if os.path.exists('chat_pretext.txt'):
-        with open('chat_pretext.txt', 'r') as PRETEXT:
-            pretext = PRETEXT.read()
-
-    # set up profile (if exists) and concatenate to pretext
-    if os.path.exists("chat_user_profile.txt"):
-        with open('chat_user_profile.txt', 'r') as FP:
-            profile = FP.read()
-        pretext += f'\n\nUser profile:\n{profile}'
-
     # Inistantiate GPTChat and run loop
     print('Initializing...', end='')
     gpt_chat = ChatGPT(logger)
-    gpt_chat.loop()
+    gpt_chat.loop(voice=voice)
 
 
 if __name__ == '__main__':
