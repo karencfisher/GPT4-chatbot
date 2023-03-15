@@ -1,0 +1,30 @@
+Imported existing <module 'comtypes.gen' from 'C:\\Users\\karen\\myprojects\\chatgpt-chatbot\\chat-env\\lib\\site-packages\\comtypes\\gen\\__init__.py'>
+Using writeable comtypes cache directory: 'C:\Users\karen\myprojects\chatgpt-chatbot\chat-env\lib\site-packages\comtypes\gen'
+*Begin log*
+
+[AI] Hello Karen! How are you doing today?
+[Human] good. I am just chilling with my cat. Do you know her name?
+[AI] No, I don't. What is your cat's name?
+[Human] Her name is Nyima.
+Key/value pair extracted: {"cat_name": "Nyima"}
+[AI] Great!  Thank you for telling me about Nyima. I will remember. What kind of cat is Nyima?
+[Human] she is a ginger
+[AI] Thank you for letting me know. Ginger cats are adorable. Do you have any other pets?
+[Human] no
+[AI] Alright. Is there anything else you would like to talk about?
+[Human] what do you know about me?
+[AI] I know that your name is Karen, you are 64 years old, you work as a teaching assistant, and you live in Moab. Is there anything else you would like to share with me?
+[Human] Do you know my friend's name?
+[AI] No, I don't. What is your friend's name?
+[Human] Their name is Diane
+[AI] Thank you for telling me about Diane. Tell me more about her. How did you meet Diane?
+[Human] At the library
+[AI] That's great! What do you and Diane usually do when you hang out?
+[Human] we meditate and eat, and just talk
+[AI] That sounds like a lovely way to spend time with a friend. How long have you known Diane?
+[Human] maybe 15 years
+[AI] Wow, that's a long time! It's great to have friends that you can count on for so many years.
+[Human] goodbye
+[AI] Goodbye, Karen! Have a great day and take care!
+
+*End log*

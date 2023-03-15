@@ -18,8 +18,6 @@ import tiktoken as tt
 class Context:
     def __init__(self, pretext, profile, response_tokens=128, max_tokens=4096):
         self.__context = []
-        self.__max_tokens = max_tokens
-        self.__response_tokens = response_tokens
 
         # get system prompt (pretext)
         self.__encoder = tt.get_encoding('p50k_base')
@@ -27,7 +25,7 @@ class Context:
         self.__pretext = {'role': 'system', 'content': pretext}
         user_profile, num_intro_tokens = self.update_prompt(profile)
         self.__intro = {'role': 'user', 'content': user_profile}
-        self.__max_context = max_tokens - (num_pretext_tokens + num_intro_tokens)
+        self.__max_context = max_tokens - (num_pretext_tokens + num_intro_tokens + response_tokens)
 
     def update_prompt(self, profile):
         # Unpack dictionary to text version of profile

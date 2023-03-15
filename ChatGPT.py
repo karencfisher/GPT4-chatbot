@@ -142,6 +142,8 @@ class ChatGPT:
 def main():
     if len(sys.argv) > 1:
         voice = sys.argv[1] != 'novoice'
+    else:
+        voice = True
 
     # initialize logging
     now = datetime.now()
