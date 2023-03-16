@@ -28,7 +28,7 @@ class ChatGPT:
         # fetch API key from environment
         load_dotenv()
         self.secret_key = os.getenv('SECRET_KEY')
-        self.memories = set()
+        self.memories = []
 
         # get configuration
         with open('chatgpt_config.json', 'r') as FP:
@@ -85,7 +85,7 @@ class ChatGPT:
                 if voice:
                     self.tts.speak(ai_text_filter)
                 else:
-                    print(f'{ai_text_filter}')
+                    print(f'\r{ai_text_filter}')
                 self.logger.info(f'[AI] {ai_text_filter}')
 
             # update context. If first two iterations, store as pretext
@@ -145,7 +145,7 @@ class ChatGPT:
             
             # Add the key/value pair to data structure (for now just
             # accumulate them)
-            self.memories.add(kv_pairs)
+            self.memories.append(kv_pairs)
         return re.sub(pattern, '', text).strip()
 
     def __prompt_gpt(self, prompt):
