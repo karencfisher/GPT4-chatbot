@@ -87,6 +87,9 @@ class ChatGPT:
                 else:
                     print(f'{ai_text_filter}')
                 self.logger.info(f'[AI] {ai_text_filter}')
+
+            # update context. If first two iterations, store as pretext
+            # (pinned messages). 
             self.context.add(role='assistant',
                             text=ai_text,
                             pretext = iteration <= 1,
