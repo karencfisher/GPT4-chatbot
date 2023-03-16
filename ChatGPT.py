@@ -28,7 +28,7 @@ class ChatGPT:
         # fetch API key from environment
         load_dotenv()
         self.secret_key = os.getenv('SECRET_KEY')
-        self.memories = []
+        self.memories = set()
 
         # get configuration
         with open('chatgpt_config.json', 'r') as FP:
@@ -43,19 +43,22 @@ class ChatGPT:
         # get system prompt
         with open('chat_system_prompt.txt', 'r') as PRETEXT:
             sys_prompt = PRETEXT.read()
+        self.context = Context(num_response_tokens=self.config['max_tokens'], 
+                               pretext=sys_prompt)
 
-        # get pretext and profile
+        # get profile
+        with open('chat_user_profile.json', 'r') as PROFILE:
+            self.__profile = json.load(PROFILE)
+        profile_txt, n_tokens = self.context.profile_text(self.__profile)
+        self.context.add('user', 
+                         profile_txt, 
+                         pretext=True, 
+                         n_tokens=n_tokens)
+
         with open('chat_instructions.txt', 'r') as PRETEXT:
             self.instructions = PRETEXT.read()
 
-        with open('chat_user_profile.json', 'r') as PROFILE:
-            self.__profile = json.load(PROFILE)
-
-        # set up context
-        self.context = Context(response_tokens=self.config['max_tokens'], 
-                               pretext=sys_prompt,
-                               profile=self.__profile)
-
+        # start log
         self.logger = logger
         self.logger.info("*Begin log*\n")
 
@@ -72,7 +75,7 @@ class ChatGPT:
             # send prompt to GPT-3
             prompt = self.context.get_prompt()
             ai_text, n_tokens = self.__prompt_gpt(prompt)
-            ai_text = self.__filterResponse(ai_text)
+            ai_text_filter = self.__filterResponse(ai_text)
 
             # speak and log response
             if iteration == 1:
@@ -80,20 +83,23 @@ class ChatGPT:
                 print(f'\n{ai_text}')
             else:
                 if voice:
-                    self.tts.speak(ai_text)
+                    self.tts.speak(ai_text_filter)
                 else:
-                    print(f'{ai_text}')
-                self.logger.info(f'[AI] {ai_text.strip()}')
-                self.context.add(role='assistant',
-                                text=ai_text, 
-                                n_tokens=n_tokens)
+                    print(f'{ai_text_filter}')
+                self.logger.info(f'[AI] {ai_text_filter}')
+            self.context.add(role='assistant',
+                            text=ai_text,
+                            pretext = iteration <= 1,
+                            n_tokens=n_tokens)
 
             # See if user said goodbye
             if text == 'goodbye':
                 break
 
             if iteration == 0:
-                self.context.add(role='user', text=self.instructions)
+                self.context.add(role='user', 
+                                 text=self.instructions, 
+                                 pretext=True)
             else:
                 # Listen for user input
                 if voice:
@@ -105,6 +111,7 @@ class ChatGPT:
                 self.context.add(role='user', text=text)
             iteration += 1
 
+        self.logger.info(f'Extracted info: {self.memories}')
         self.logger.info('\n*End log*')
 
         # update profile
@@ -120,10 +127,11 @@ class ChatGPT:
         if match:
             kv_pairs = match.group()
             self.logger.info(f"Key/value pairs extracted: {kv_pairs}")
+            print(f"Key/value pairs extracted: {kv_pairs}")
             
             # Add the key/value pair to data structure (for now just
             # accumulate them)
-            self.memories.append(kv_pairs)
+            self.memories.add(kv_pairs)
         return re.sub(pattern, '', text).strip()
 
     def __prompt_gpt(self, prompt):

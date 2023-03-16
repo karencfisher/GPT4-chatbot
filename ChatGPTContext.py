@@ -16,18 +16,20 @@ import tiktoken as tt
 
 
 class Context:
-    def __init__(self, pretext, profile, response_tokens=128, max_tokens=4096):
+    def __init__(self, pretext, num_response_tokens=128, max_context_tokens=4096):
+        self.__max_context_tokens = max_context_tokens
+        self.__num_response_tokens = num_response_tokens
         self.__context = []
+        self.__pretext = []
 
         # get system prompt (pretext)
         self.__encoder = tt.get_encoding('p50k_base')
-        num_pretext_tokens = len(self.__encoder.encode(pretext))
-        self.__pretext = {'role': 'system', 'content': pretext}
-        user_profile, num_intro_tokens = self.update_prompt(profile)
-        self.__intro = {'role': 'user', 'content': user_profile}
-        self.__max_context = max_tokens - (num_pretext_tokens + num_intro_tokens + response_tokens)
+        self.__num_pretext_tokens = len(self.__encoder.encode(pretext))
+        self.__pretext.append({'role': 'system', 'content': pretext})
+        self.__max_conv = (self.__max_context_tokens - 
+                           (self.__num_pretext_tokens + self.__num_response_tokens))
 
-    def update_prompt(self, profile):
+    def profile_text(self, profile):
         # Unpack dictionary to text version of profile
         items = [f'{key}: {value}' for key, value in profile.items()]
         profile_txt = '\n'.join(items)
@@ -48,24 +50,32 @@ class Context:
         context = []
         for indx in range(len(self.__context) - 1, -1, -1):
             n_tokens += self.__context[indx]['n_tokens']
-            if n_tokens >= self.__max_context:
+            if n_tokens >= self.__max_conv:
                 break
             context.append(self.__context[indx]['message'])
-        context.append(self.__intro)
-        context.append(self.__pretext)
-        # return concatenated pretext and context
-        return context[::-1]
 
-    def add(self, role, text, n_tokens=None):
+        # return concatenated pretext and context
+        return self.__pretext + context[::-1]
+
+    def add(self, role, text, pretext=False, n_tokens=None):
         '''
         Add token count, role, and content to the context
 
         Input: new text
         '''
         if len(text) > 0:
+            # if not passed, estimate number of tokens
             if n_tokens is None:
                 n_tokens = len(self.__encoder.encode(text))
+
+            # assemble message and add to appropriate list
             message = {'n_tokens': n_tokens, 
                        'message': {'role': role, 'content': text}}
-            self.__context.append(message)
+            if pretext:
+                self.__pretext.append(message['message'])
+                self.__num_pretext_tokens + n_tokens
+                self.__max_conv = (self.__max_context_tokens - 
+                                   (self.__num_pretext_tokens + self.__num_response_tokens))
+            else:
+                self.__context.append(message)
 
