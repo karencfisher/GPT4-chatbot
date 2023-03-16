@@ -131,8 +131,8 @@ class ChatGPT:
                 if not isinstance(value, list):
                     value = value.split(', ') if ',' in value else value
                 self.__profile[key] = value
-        # with open('chat_user_profile.json', 'w') as PROFILE:
-        #     json.dump(self.__profile, PROFILE)
+        with open('chat_user_profile.json', 'w') as PROFILE:
+            json.dump(self.__profile, PROFILE)
 
     def __filterResponse(self, text):
         # extract kv_pair if found
