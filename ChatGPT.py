@@ -39,17 +39,20 @@ class ChatGPT:
         # Initialize TTS
         self.tts = Text2Speech()
 
+        # get system prompt
+        with open('chat_system_prompt.txt', 'r') as PRETEXT:
+            sys_prompt = PRETEXT.read()
+
         # get pretext and profile
-        with open('chat_pretext.txt', 'r') as PRETEXT:
-            pretext = PRETEXT.read()
+        with open('chat_instructions.txt', 'r') as PRETEXT:
+            self.instructions = PRETEXT.read()
 
         with open('chat_user_profile.json', 'r') as PROFILE:
-            self.__profile_json = PROFILE.read()
-        self.__profile = json.loads(self.__profile_json)
+            self.__profile = json.load(PROFILE)
 
         # set up context
         self.context = Context(response_tokens=self.config['max_tokens'], 
-                               pretext=pretext,
+                               pretext=sys_prompt,
                                profile=self.__profile)
 
         self.logger = logger
@@ -63,6 +66,7 @@ class ChatGPT:
         to that prompt.
         '''
         text = ''
+        iteration = 0
         while True:
             # send prompt to GPT-3
             prompt = self.context.get_prompt()
@@ -70,28 +74,35 @@ class ChatGPT:
             ai_text = self.__filterResponse(ai_text)
 
             # speak and log response
-            if voice:
-                self.tts.speak(ai_text)
+            if iteration == 1:
+                self.logger.info(f'[Hidden] {ai_text}')
+                print(f'\n{ai_text}')
             else:
-                print(f'{ai_text}')
-            self.logger.info(f'[AI] {ai_text.strip()}')
-            self.context.add(role='assistant',
-                             text=ai_text, 
-                             n_tokens=n_tokens)
+                if voice:
+                    self.tts.speak(ai_text)
+                else:
+                    print(f'{ai_text}')
+                self.logger.info(f'[AI] {ai_text.strip()}')
+                self.context.add(role='assistant',
+                                text=ai_text, 
+                                n_tokens=n_tokens)
 
             # See if user said goodbye
             if text == 'goodbye':
                 break
 
-            # Listen for user input
-            if voice:
-                text = self.recog.speech_to_text()
+            if iteration == 0:
+                self.context.add(role='user', text=self.instructions)
             else:
-                text = input('>> ')
-
-            # update context and get prompt
-            self.logger.info(f'[Human] {text}')
-            self.context.add(role='user', text=text)
+                # Listen for user input
+                if voice:
+                    text = self.recog.speech_to_text()
+                else:
+                    text = input('>> ')
+                # update context and get prompt
+                self.logger.info(f'[Human] {text}')
+                self.context.add(role='user', text=text)
+            iteration += 1
 
         self.logger.info('\n*End log*')
 
