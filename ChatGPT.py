@@ -118,10 +118,21 @@ class ChatGPT:
         self.logger.info('\n*End log*')
 
         # update profile
+        self.update_profile(self.__profile)
+        print('\rExiting...')
+
+    def update_profile(self, memories):
+        for memory in memories:
+            memory_dict = json.loads(memory)
+            for key in memory_dict.keys():
+                if  key == 'context':
+                    continue
+                value = memory_dict[key]
+                if not isinstance(value, list):
+                    value = value.split(', ') if ',' in value else value
+                self.__profile[key] = value
         # with open('chat_user_profile.json', 'w') as PROFILE:
         #     json.dump(self.__profile, PROFILE)
-        print(self.memories)
-        print('\rExiting...')
 
     def __filterResponse(self, text):
         # extract kv_pair if found
@@ -130,7 +141,7 @@ class ChatGPT:
         if match:
             kv_pairs = match.group()
             self.logger.info(f"Key/value pairs extracted: {kv_pairs}")
-            print(f"Key/value pairs extracted: {kv_pairs}")
+            # print(f"Key/value pairs extracted: {kv_pairs}")
             
             # Add the key/value pair to data structure (for now just
             # accumulate them)

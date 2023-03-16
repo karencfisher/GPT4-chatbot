@@ -1,0 +1,54 @@
+Imported existing <module 'comtypes.gen' from 'C:\\Users\\karen\\myprojects\\chatgpt-chatbot\\chat-env\\lib\\site-packages\\comtypes\\gen\\__init__.py'>
+Using writeable comtypes cache directory: 'C:\Users\karen\myprojects\chatgpt-chatbot\chat-env\lib\site-packages\comtypes\gen'
+*Begin log*
+
+[AI] Hi Karen! How are you doing today? How's everything in Moab?
+[Hidden] Acknowledged. I will extract new facts from user prompts and generate key/value pairs.
+[Human] Good. It is sunny today, and I am just chilling with my cat.
+Key/value pairs extracted: {"weather": "sunny", "activity": "chilling with cat"}
+[AI] That sounds like a lovely way to spend the day. What's your cat's name again?
+[Human] You forgot? Her name is Nyima.
+Key/value pairs extracted: {"cat_name": "Nyima"}
+[AI] I apologize for that, Karen.  Thank you for reminding me. Nyima is a beautiful name. How long have you had her?
+[Human] She is 11 years old. I got her when she was a 5 week old kitten.
+Key/value pairs extracted: {"cat_age": "11 years", "age_when_got_cat": "5 weeks"}
+[AI] Wow, Nyima has been with you for a long time. I'm sure she's been a great companion to you. Do you have any other pets or animals that you like?
+[Human] Yes, a dog.
+Key/value pairs extracted: {"other_pets": "dog"}
+[AI] That's great! What kind of dog do you have?
+[Human] He is a chihuahua. His name is Sylvester.
+Key/value pairs extracted: {"dog_name": "Sylvester", "dog_breed": "chihuahua"}
+[AI] Sylvester sounds like a cute name for a chihuahua. Do you enjoy spending time with Sylvester?
+[Human] I do. He is so cute. But Nyima gets jealous.
+Key/value pairs extracted: {"pet_jealousy": "Nyima gets jealous of Sylvester"}
+[AI] It's understandable that Nyima might get jealous. It's important to give each pet individual attention and love. Do you have any hobbies or interests that you enjoy doing in your free time?
+[Human] I am interested in AI, art, and food.
+Key/value pairs extracted: {"interests": "AI, art, food"}
+[AI] Those are some great interests, Karen. What kind of art do you enjoy? Do you like to create art or appreciate it as a viewer?
+[Human] I create art, I paint, and I went to school for art. I was love looking at art.
+Key/value pairs extracted: {"art_interest": "painting", "art_education": "went to school for art"}
+[AI] That's really cool, Karen. It's great that you have a passion for art and that you pursued it in school. Do you have a favorite artist or style of art that you enjoy?
+[Human] Abstract painting especially.
+Key/value pairs extracted: {"favorite_art_style": "abstract painting"}
+[AI] Abstract painting can be very interesting and thought-provoking. Do you have any favorite abstract painters or paintings that you particularly enjoy?
+[Human] Marc Rothko has been a favorite painter. But I like so many, actually.
+Key/value pairs extracted: {"favorite_abstract_painter": "Marc Rothko"}
+[AI] Marc Rothko is a great choice. His use of color and form in his paintings is truly mesmerizing. It's great that you appreciate his work. Do you have a favorite food or cuisine that you enjoy?
+[Human] I like mexican and thai food.
+Key/value pairs extracted: {"favorite_cuisines": "Mexican, Thai"}
+[AI] Mexican and Thai food are both delicious cuisines with a lot of variety. Do you have a favorite dish from either cuisine?
+[Human] For Mexican, I love enchiladas, and mole.
+Key/value pairs extracted: {"favorite_mexican_dishes": "enchiladas, mole"}
+[AI] Enchiladas and mole are both great choices. Mole can be a complex dish to make, but it's definitely worth it. Have you ever tried making it yourself?
+[Human] No, I leave that for the professionals. ;)
+[AI] Haha, I understand. Sometimes it's nice to leave the cooking to the experts. Do you have a favorite Thai dish that you enjoy?
+[Human] Pad thai is one of my favorites. Hmmm, maybe I will go to my favorite Thai restaraunt for lunch.
+Key/value pairs extracted: {"favorite_thai_dish": "Pad Thai"}
+[AI] That sounds like a great idea, Karen. I hope you enjoy your lunch at your favorite Thai restaurant. It was great chatting with you today.
+[Human] An likewise.
+[AI] Thank you, Karen. Have a great day!
+[Human] goodbye
+[AI] Goodbye!
+Extracted info: {'{"interests": "AI, art, food"}', '{"other_pets": "dog"}', '{"favorite_thai_dish": "Pad Thai"}', '{"pet_jealousy": "Nyima gets jealous of Sylvester"}', '{"dog_name": "Sylvester", "dog_breed": "chihuahua"}', '{"favorite_art_style": "abstract painting"}', '{"weather": "sunny", "activity": "chilling with cat"}', '{"favorite_abstract_painter": "Marc Rothko"}', '{"cat_age": "11 years", "age_when_got_cat": "5 weeks"}', '{"favorite_mexican_dishes": "enchiladas, mole"}', '{"favorite_cuisines": "Mexican, Thai"}', '{"art_interest": "painting", "art_education": "went to school for art"}', '{"cat_name": "Nyima"}'}
+
+*End log*
