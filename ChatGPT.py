@@ -28,6 +28,7 @@ class ChatGPT:
         # fetch API key from environment
         load_dotenv()
         self.secret_key = os.getenv('SECRET_KEY')
+        self.memories = []
 
         # get configuration
         with open('chatgpt_config.json', 'r') as FP:
@@ -107,8 +108,9 @@ class ChatGPT:
         self.logger.info('\n*End log*')
 
         # update profile
-        with open('chat_user_profile.json', 'w') as PROFILE:
-            json.dump(self.__profile, PROFILE)
+        # with open('chat_user_profile.json', 'w') as PROFILE:
+        #     json.dump(self.__profile, PROFILE)
+        print(self.memories)
         print('\rExiting...')
 
     def __filterResponse(self, text):
@@ -116,14 +118,12 @@ class ChatGPT:
         pattern = re.compile(r'{"\w+":\s*"[^"]+"}')
         match = pattern.search(text)
         if match:
-            kv_pair = match.group()
-            self.logger.info(f"Key/value pair extracted: {kv_pair}")
-            print(f'Key/value pair extracted: {kv_pair}')
+            kv_pairs = match.group()
+            self.logger.info(f"Key/value pairs extracted: {kv_pairs}")
             
-            # Add the key/value pair to data structure
-            kv = json.loads(kv_pair)
-            key, value = list(kv.items())[0]
-            self.__profile[key] = value
+            # Add the key/value pair to data structure (for now just
+            # accumulate them)
+            self.memories.append(kv_pairs)
         return re.sub(pattern, '', text).strip()
 
     def __prompt_gpt(self, prompt):
