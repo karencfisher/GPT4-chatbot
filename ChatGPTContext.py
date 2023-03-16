@@ -35,7 +35,6 @@ class Context:
         
         # get count of tokens
         num_tokens = len(self.__encoder.encode(profile_txt))
-
         return profile_txt, num_tokens
 
     def get_prompt(self):
@@ -66,6 +65,7 @@ class Context:
         if len(text) > 0:
             if n_tokens is None:
                 n_tokens = len(self.__encoder.encode(text))
-            message = {'n_tokens': n_tokens, 'message': {'role': role, 'content': text}}
+            message = {'n_tokens': n_tokens, 
+                       'message': {'role': role, 'content': text}}
             self.__context.append(message)
 

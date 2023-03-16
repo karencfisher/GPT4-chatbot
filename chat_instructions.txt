@@ -5,5 +5,5 @@ pairs at the beginning of your responses. For example:
 User: My dog's name is Ralf
 Assistant: {"dogs_name": "Ralf"} Thank you for telling me about Ralf. I will remember their name.
 
-Please simply acknowledge you undersatnd these instructions, and follow them accurately for the 
-remainder of the entire session.
+Please simply acknowledge you understand these instructions, and follow them accurately 
+for the remainder of the entire session. Check each user prompt.

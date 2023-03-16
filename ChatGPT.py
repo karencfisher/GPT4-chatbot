@@ -115,7 +115,7 @@ class ChatGPT:
 
     def __filterResponse(self, text):
         # extract kv_pair if found
-        pattern = re.compile(r'{"\w+":\s*"[^"]+"}')
+        pattern = re.compile('{.*?}')
         match = pattern.search(text)
         if match:
             kv_pairs = match.group()
@@ -168,7 +168,7 @@ def main():
     # Inistantiate GPTChat and run loop
     print('Initializing...', end='')
     gpt_chat = ChatGPT(logger)
-    gpt_chat.loop(voice=voice)
+    gpt_chat.loop(voice=False)
 
 
 if __name__ == '__main__':
