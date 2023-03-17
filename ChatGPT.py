@@ -75,7 +75,7 @@ class ChatGPT:
             # send prompt to GPT-3
             prompt = self.context.get_prompt()
             ai_text, n_tokens = self.__prompt_gpt(prompt)
-            ai_text_filter = self.__filterResponse(ai_text)
+            ai_text_filter = self.filterResponse(ai_text)
 
             # speak and log response
             if iteration == 1:
@@ -118,7 +118,7 @@ class ChatGPT:
         self.logger.info('\n*End log*')
 
         # update profile
-        self.update_profile(self.__profile)
+        self.update_profile(self.memories)
         print('\rExiting...')
 
     def update_profile(self, memories):
@@ -128,20 +128,26 @@ class ChatGPT:
                 if  key == 'context':
                     continue
                 value = memory_dict[key]
-                if not isinstance(value, list):
-                    value = value.split(', ') if ',' in value else value
-                self.__profile[key] = value
-        # with open('chat_user_profile.json', 'w') as PROFILE:
-        #     json.dump(self.__profile, PROFILE)
+                if self.__profile.get(key) is not None:
+                    if not isinstance(self.__profile[key], list):
+                        self.__profile[key] = [self.__profile[key]]
+                    self.__profile[key].append(value)
+                else:
+                    if isinstance(value, str):
+                        if not isinstance(value, list):
+                            value = value.split(', ') if ',' in value else value
+                    self.__profile[key] = value
+        with open('chat_user_profile.json', 'w') as PROFILE:
+            json.dump(self.__profile, PROFILE)
 
-    def __filterResponse(self, text):
+    def filterResponse(self, text):
         # extract kv_pair if found
-        pattern = re.compile('{.*?}')
+        pattern = re.compile(r'{(?:[^{}]|((?:{[^{}]*})+))*}')
         match = pattern.search(text)
         if match:
             kv_pairs = match.group()
             self.logger.info(f"Key/value pairs extracted: {kv_pairs}")
-            # print(f"Key/value pairs extracted: {kv_pairs}")
+            print(f"{kv_pairs}")
             
             # Add the key/value pair to data structure (for now just
             # accumulate them)
