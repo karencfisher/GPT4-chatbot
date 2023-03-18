@@ -1,5 +1,5 @@
 <span style="color: gray">
-<h1>Voice chatbot application ChatGPT</h1>
+<h1>Voice chatbot application using GPT-4</h1>
 </span>
 
 Evolving chatbot program using OpenAI's GPT-4 API
