@@ -1,9 +1,0 @@
-Imported existing <module 'comtypes.gen' from 'C:\\Users\\karen\\myprojects\\chatgpt-chatbot\\chat-env\\lib\\site-packages\\comtypes\\gen\\__init__.py'>
-Using writeable comtypes cache directory: 'C:\Users\karen\myprojects\chatgpt-chatbot\chat-env\lib\site-packages\comtypes\gen'
-*Begin log*
-
-[Human] Hello
-Key/value pairs extracted: {"name": "Susan"}
-[AI] Hi Karen! It's Susan here. How are you doing today?
-[Human] good
-[AI] That's great to hear! What have you been up to lately?

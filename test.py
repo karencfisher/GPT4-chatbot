@@ -1,4 +1,4 @@
-from ChatGPT import ChatGPT
+from GPT4Chat import ChatGPT
 import logging
 from datetime import datetime
 import os

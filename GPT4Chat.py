@@ -113,7 +113,7 @@ class ChatGPT:
 
     def update_profile(self, memories):
         '''
-        Consolidates new information into use profile
+        Consolidates new information into user profile
 
         Input: memories - list of JSON snippets with key/value pairs
         '''
@@ -122,8 +122,16 @@ class ChatGPT:
             for key in memory_dict.keys():
                 value = memory_dict[key]
                 try:
-                    # if key exists, add value to it to a list
+                    # if key exists, add value to it to a list. (If duplicate,
+                    # ignore.)
                     if self.__profile.get(key) is not None:
+                        # first check for duplicate
+                        if (value == self.__profile.get(key) or
+                            (isinstance(self.__profile.get(key), list) and 
+                                value in self.__profile.get(key))):
+                            continue
+                        
+                        # add as list item
                         if not isinstance(self.__profile[key], list):
                             self.__profile[key] = [self.__profile[key]]
                         self.__profile[key].append(value)
