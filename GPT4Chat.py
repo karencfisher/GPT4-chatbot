@@ -65,8 +65,12 @@ class ChatGPT:
         Loops until the user says simply "goodbye" and model has responded
         to that prompt.
         '''
-        text = ''
+        text = 'Hello'
         while True:
+            # update context and get prompt
+            self.logger.info(f'[Human] {text}')
+            self.context.add(role='user', text=text)
+
             # send prompt to GPT-4
             prompt = self.context.get_prompt()
             ai_text, n_tokens = self.__prompt_gpt(prompt)
@@ -94,9 +98,6 @@ class ChatGPT:
                 text = self.recog.speech_to_text()
             else:
                 text = input('>> ')
-            # update context and get prompt
-            self.logger.info(f'[Human] {text}')
-            self.context.add(role='user', text=text)
 
         self.logger.info(f'Extracted info: {self.memories}')
         self.logger.info('\n*End log*')
@@ -184,7 +185,7 @@ def main():
     # Inistantiate GPTChat and run loop
     print('Initializing...', end='')
     gpt_chat = ChatGPT(logger)
-    gpt_chat.loop(voice=False)
+    gpt_chat.loop(voice=voice)
 
 
 if __name__ == '__main__':
