@@ -121,10 +121,13 @@ prefer: see the pyttsx3 documentation linked above.
  "dog_breed": "terrier"}
 ```
 
-**gpt4-system_prompt.txt:** This is the prompt engineering to define the nature of the chatbot and instructions
-to extract information as described above. The user profile is appeneded to that, and the entire is passed to
-GPT-4 as the "system message." An advantage of GPT-4, over previous of ChatGPT (gpt-3.5.turbo), is that it more
-strongly uses the information in system message. 
+**gpt4-system_prompt.txt:** This is the prompt engineering for the model. It can define parameters for the model,
+such as its role, persona, tone, and so forth, as well as instructing it for specific tasks, such as extracting
+new user information. 
+
+At run time, the user profile is appended to the text in this file, which is submitted ot the model intitially
+as the 'system message.' (GPT-4 is more robust working with the system message than as was the case with ChatGPT,
+which often ignored it.)
 
 Example of the system prompt (minus the user profile):
 
