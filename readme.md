@@ -93,6 +93,27 @@ prefer: see the pyttsx3 documentation linked above.
 {"voice": "Microsoft Zira Desktop - English (United States)", 
  "rate": 130}
  ```
+ 
+ User profile: Here is where the chatbot is can know the user. It is in JSON format. For example:
+
+```
+{"name": "Karen",
+ "Location": "Moab",
+ "Occupatin": "Software Engineer"}
+```
+ 
+ The chatbot is prgrammed ot then expand that profile with new information gleaned from the user's
+ prompt. For example, told about the user's dog, a terrier named Max, the program will at the end
+ of the session to include that information. Such as:
+ 
+ ```
+{"name": "Karen",
+ "Location": "Moab",
+ "Occupatin": "Software Engineer",
+ "has_dog": "yes",
+ "dogs_name" "Max",
+ "dog_breed": "terrier"}
+```
 
 <span style="color: gray">
 <h2>Use</h2>
