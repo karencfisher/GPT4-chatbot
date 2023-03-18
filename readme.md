@@ -167,7 +167,7 @@ terminal.
 python GPT4Chat.py novoice
 ```
 
-There is also a debug, which will display and log newly extract key/value pairs (and other debug information as the project continues).
+There is also a debug mode, which will display and log newly extract key/value pairs (and other debug information as the project continues).
 
 ```
 python GPT4Chat.py debug
