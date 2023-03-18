@@ -15,7 +15,7 @@ and the user profile file is updated.
 </span>
 
 As a development project, 'installation' consists of pulling down the source code and installing the required dependencies. That is best done within a Python virtual
-environment, so as to not possibly conflicting with other Python packages already on one's system globally. This is the recommended practice for any such
+environment, so as to not possibly conflict with other Python packages already on one's system globally. This is the recommended practice for any such
 project.
 
 Use at your risk. ;) And if you do dare ;), and encounter any issue/bug/suggestion, feel free to open an issue. I'd appreciate the feedback.
