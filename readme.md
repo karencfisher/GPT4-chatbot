@@ -61,9 +61,7 @@ SECRET_KEY = '<your secret key>'
 
 There are four configuration files:
 
-gpt4_config.json:
-
-Parameters for the language model.
+**gpt4_config.json:** Parameters for the language model.
 
 ```
 {"model": "gpt-4",
@@ -75,7 +73,7 @@ Parameters for the language model.
  "max_tokens": 64}
  ```
 
-vosk_config.json: settings for vosk speech recognition. These have technical details like bit rate and buffer sizes, and likely
+**vosk_config.json:** settings for vosk speech recognition. These have technical details like bit rate and buffer sizes, and likely
 won't need to be change often. But they are exposed for the brave.
 
 ```
@@ -85,7 +83,7 @@ won't need to be change often. But they are exposed for the brave.
 "rate": 16000}
 ```
 
-voice.json: here is where you may be able to select the voice to be used. Currently, it uses 
+**voice.json:** here is where you may be able to select the voice to be used. Currently, it uses 
 a voice provided by Windows 10. On other platforms one needs to find the voice they
 prefer: see the pyttsx3 documentation linked above.
 
@@ -94,7 +92,7 @@ prefer: see the pyttsx3 documentation linked above.
  "rate": 130}
  ```
  
- User profile: Here is where the chatbot is can know the user. It is in JSON format. For example:
+ **chat_user_profile:** This is the user profile. This is how the chatbot is can know the user. It is in JSON format. For example:
 
 ```
 {"name": "Karen",
@@ -102,9 +100,11 @@ prefer: see the pyttsx3 documentation linked above.
  "Occupatin": "Software Engineer"}
 ```
  
- The chatbot is prgrammed ot then expand that profile with new information gleaned from the user's
- prompt. For example, told about the user's dog, a terrier named Max, the program will at the end
- of the session to include that information. Such as:
+ The chatbot is programmed to then also expand the user profile with new information gleaned from the user's
+ prompts. For example, once told about the user's dog, a terrier named Max, the model is instructed to extract
+ information into a machine readable form (a JSON snippet). The program strips that information from the
+ model's response and stored, passing through the rest of the model's response to the user. At then end of
+ the session adds the new information to the user profile, so as to provide a limited sense of long term memory.
  
  ```
 {"name": "Karen",
@@ -118,6 +118,33 @@ prefer: see the pyttsx3 documentation linked above.
 <span style="color: gray">
 <h2>Use</h2>
 </span>
+
+**gpt4-system_prompt.txt:** This is the prompt engineering to define the nature of the chatbot and instructions
+to extract information as described above. The user profile is appeneded to that, and the entire is passed to
+GPT-4 as the "system message." An advantage of GPT-4, over previous of ChatGPT (gpt-3.5.turbo), is that it more
+strongly uses the information in system message. 
+
+Example of the system prompt (minus the user profile):
+
+```
+You are a friendly chatbot, named Susan, who likes to discuss many topics.
+You are helpful with your friends, enquiring as to their well being, always kind and caring. 
+You enquire about information such as their pets, interests, likes, and dislikes.
+Your responses are informal, as in a casual social conversation.
+
+Extract any new facts from user prompts and generate key/value pairs. Output the key/value
+pairs at the beginning of your responses. For example:
+
+User: My dog's name is Ralf
+Assistant: {"dogs_name": "Ralf"} Thank you for telling me about Ralf. I will remember their name.
+
+Please follow these instructions accurately for the entirety of the conversation.
+```
+
+It uses context learning, inclduing one shot learning in this example (giving the model a single
+example to understand the task it is being asked of. This is a new, upcoming paradigm for programming,
+AKA "AI Whispering." As much teaching as programming!
+
 
 Run
 
