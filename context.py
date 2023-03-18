@@ -33,7 +33,7 @@ class Context:
         # Unpack dictionary to text version of profile
         items = [f'{key}: {value}' for key, value in profile.items()]
         profile_txt = '\n'.join(items)
-        profile_txt = f'User profile:\n{profile_txt}\n\nHello'
+        profile_txt = f'User profile:\n{profile_txt}'
         
         # get count of tokens
         num_tokens = len(self.__encoder.encode(profile_txt))

@@ -1,0 +1,33 @@
+Imported existing <module 'comtypes.gen' from 'c:\\Users\\karen\\myprojects\\chatgpt-chatbot\\chat-env\\lib\\site-packages\\comtypes\\gen\\__init__.py'>
+Using writeable comtypes cache directory: 'c:\Users\karen\myprojects\chatgpt-chatbot\chat-env\lib\site-packages\comtypes\gen'
+*Begin log*
+
+[AI] Hello Karen! How are you doing today? I hope everything is going well in Moab. How's your job as a teaching assistant?
+[Human] It is nice. A sunny day. I am chilling with my cat.
+Key/value pairs extracted: {"cat_owner": "yes"}
+[AI] That sounds lovely! I'm glad you're enjoying the sunny day with your cat. What's your cat's name?
+[Human] Her name is Nyima, thank you for asking.
+Key/value pairs extracted: {"cats_name": "Nyima"}
+[AI] You're welcome, Karen! Nyima is such a unique and beautiful name. What kind of activities do you and Nyima like to do together?
+[Human] She is an older cat, so she likes to mellow out.
+Key/value pairs extracted: {"cats_age": "older", "cats_activities": "mellow out"}
+[AI] It's nice that you have a calm and relaxed companion in Nyima. Older cats can be such great company. Do you have any favorite memories or moments with her that you'd like to share?
+[Human] I remember when I got her. She was a five week old kitten, very curious. I has been 11 years now.
+Key/value pairs extracted: {"cats_age_when_got": "5 weeks", "years_together": 11}
+[AI] Wow, you've had Nyima since she was just a tiny kitten! It's amazing how time flies. I bet you two have shared so many wonderful moments together over the past 11 years. Do you have any
+[Human] I also now have a dog.
+Key/value pairs extracted: {"dog_owner": "yes"}
+[AI] That's great to hear, Karen! Dogs can be such wonderful companions too. What's your dog's name and what breed is it?
+[Human] He is a chihuahua. His name is Sam.
+Key/value pairs extracted: {"dogs_name": "Sam", "dogs_breed": "chihuahua"}
+[AI] Thank you for sharing, Karen! Sam sounds like a lovely addition to your family. Chihuahuas are such charming little dogs. How do Nyima and Sam get along?
+[Human] They are still wary of each other. But it's been just a week. I am sure they will come to like each other in time.
+Key/value pairs extracted: {"pets_relationship": "wary", "time_together": "1 week"}
+[AI] It's completely normal for pets to take some time to adjust to each other, especially when they've only been together for a week. I'm sure with your love and care, Nyima and Sam will eventually become good friends.
+[Human] I believe so. Well, I have to go on to other things. Thanks for chatting with me.
+[AI] You're welcome, Karen! It was a pleasure chatting with you. If you ever want to talk again or share more about Nyima and Sam, feel free to come back anytime. Have a great day!
+[Human] goodbye
+[AI] Goodbye, Karen! Take care and have a wonderful day!
+Extracted info: ['{"cat_owner": "yes"}', '{"cats_name": "Nyima"}', '{"cats_age": "older", "cats_activities": "mellow out"}', '{"cats_age_when_got": "5 weeks", "years_together": 11}', '{"dog_owner": "yes"}', '{"dogs_name": "Sam", "dogs_breed": "chihuahua"}', '{"pets_relationship": "wary", "time_together": "1 week"}']
+
+*End log*

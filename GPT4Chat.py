@@ -18,7 +18,7 @@ from datetime import datetime
 import openai
 from dotenv import load_dotenv
 
-from ChatGPTContext import Context
+from context import Context
 from vosk_recognizer import SpeechRecognize
 from tts import Text2Speech
 
@@ -31,7 +31,7 @@ class ChatGPT:
         self.memories = []
 
         # get configuration
-        with open('chatgpt_config.json', 'r') as FP:
+        with open('gpt4_config.json', 'r') as FP:
             self.config = json.load(FP)
 
         # intialize speech recognition
@@ -41,22 +41,18 @@ class ChatGPT:
         self.tts = Text2Speech()
 
         # get system prompt
-        with open('chat_system_prompt.txt', 'r') as PRETEXT:
+        with open('gpt4_system_prompt.txt', 'r') as PRETEXT:
             sys_prompt = PRETEXT.read()
-        self.context = Context(num_response_tokens=self.config['max_tokens'], 
-                               pretext=sys_prompt)
 
         # get profile
         with open('chat_user_profile.json', 'r') as PROFILE:
-            self.__profile = json.load(PROFILE)
-        profile_txt, n_tokens = self.context.profile_text(self.__profile)
-        self.context.add('user', 
-                         profile_txt, 
-                         pretext=True, 
-                         n_tokens=n_tokens)
+            self.__profile_JSON = PROFILE.read()
+        self.__profile = json.loads(self.__profile_JSON)
+        sys_prompt += '\nUser Profile:\n' + self.__profile_JSON
 
-        with open('chat_instructions.txt', 'r') as PRETEXT:
-            self.instructions = PRETEXT.read()
+        self.context = Context(num_response_tokens=self.config['max_tokens'], 
+                               pretext=sys_prompt,
+                               max_context_tokens=8192)
 
         # start log
         self.logger = logger
@@ -70,49 +66,37 @@ class ChatGPT:
         to that prompt.
         '''
         text = ''
-        iteration = 0
         while True:
-            # send prompt to GPT-3
+            # send prompt to GPT-4
             prompt = self.context.get_prompt()
             ai_text, n_tokens = self.__prompt_gpt(prompt)
             ai_text_filter = self.filterResponse(ai_text)
 
             # speak and log response
-            if iteration == 1:
-                self.logger.info(f'[Hidden] {ai_text}')
-                print(f'\n{ai_text}')
+            if voice:
+                self.tts.speak(ai_text_filter)
             else:
-                if voice:
-                    self.tts.speak(ai_text_filter)
-                else:
-                    print(f'\r{ai_text_filter}')
-                self.logger.info(f'[AI] {ai_text_filter}')
+                print(f'\r{ai_text_filter}')
+            self.logger.info(f'[AI] {ai_text_filter}')
 
             # update context. If first two iterations, store as pretext
             # (pinned messages). 
             self.context.add(role='assistant',
                             text=ai_text,
-                            pretext = iteration <= 1,
                             n_tokens=n_tokens)
 
             # See if user said goodbye
             if text == 'goodbye':
                 break
 
-            if iteration == 0:
-                self.context.add(role='user', 
-                                 text=self.instructions, 
-                                 pretext=True)
+            # Listen for user input
+            if voice:
+                text = self.recog.speech_to_text()
             else:
-                # Listen for user input
-                if voice:
-                    text = self.recog.speech_to_text()
-                else:
-                    text = input('>> ')
-                # update context and get prompt
-                self.logger.info(f'[Human] {text}')
-                self.context.add(role='user', text=text)
-            iteration += 1
+                text = input('>> ')
+            # update context and get prompt
+            self.logger.info(f'[Human] {text}')
+            self.context.add(role='user', text=text)
 
         self.logger.info(f'Extracted info: {self.memories}')
         self.logger.info('\n*End log*')
@@ -128,15 +112,19 @@ class ChatGPT:
                 if  key == 'context':
                     continue
                 value = memory_dict[key]
-                if self.__profile.get(key) is not None:
-                    if not isinstance(self.__profile[key], list):
-                        self.__profile[key] = [self.__profile[key]]
-                    self.__profile[key].append(value)
-                else:
-                    if isinstance(value, str):
-                        if not isinstance(value, list):
-                            value = value.split(', ') if ',' in value else value
-                    self.__profile[key] = value
+                try:
+                    if self.__profile.get(key) is not None:
+                        if not isinstance(self.__profile[key], list):
+                            self.__profile[key] = [self.__profile[key]]
+                        self.__profile[key].append(value)
+                    else:
+                        if isinstance(value, str):
+                            if not isinstance(value, list):
+                                value = value.split(', ') if ',' in value else value
+                        self.__profile[key] = value
+                except:
+                    self.logger.info(f'Error storing memory {memory}')
+                    continue
         with open('chat_user_profile.json', 'w') as PROFILE:
             json.dump(self.__profile, PROFILE)
 
@@ -164,7 +152,7 @@ class ChatGPT:
         print('\rWaiting...     ', end='')
         openai.api_key = self.secret_key
         response = openai.ChatCompletion.create(
-            model='gpt-3.5-turbo',
+            model=self.config['model'],
             messages=prompt,
             max_tokens=self.config['max_tokens'],
             temperature=self.config['temperature'],
@@ -186,7 +174,7 @@ def main():
 
     # initialize logging
     now = datetime.now()
-    logfile = f'chatgptlog-{now.strftime("%m.%d.%Y-%H.%M.%S")}.log'
+    logfile = f'gpt4chatlog-{now.strftime("%m.%d.%Y-%H.%M.%S")}.log'
     logpath = os.path.join('logs', logfile)
     logging.basicConfig(filename=logpath, 
                         level=logging.INFO, 
