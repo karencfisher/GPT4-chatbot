@@ -92,7 +92,7 @@ prefer: see the pyttsx3 documentation linked above.
  "rate": 130}
  ```
  
- **chat_user_profile:** This is the user profile. This is how the chatbot is can know the user. It is in JSON format. For example:
+ **chat_user_profile.json:** This is the user profile. This is how the chatbot is can know the user. It is in JSON format. For example:
 
 ```
 {"name": "Karen",
@@ -114,10 +114,6 @@ prefer: see the pyttsx3 documentation linked above.
  "dogs_name" "Max",
  "dog_breed": "terrier"}
 ```
-
-<span style="color: gray">
-<h2>Use</h2>
-</span>
 
 **gpt4-system_prompt.txt:** This is the prompt engineering to define the nature of the chatbot and instructions
 to extract information as described above. The user profile is appeneded to that, and the entire is passed to
@@ -145,6 +141,9 @@ It uses context learning, inclduing one shot learning in this example (giving th
 example to understand the task it is being asked of. This is a new, upcoming paradigm for programming,
 AKA "AI Whispering." As much teaching as programming!
 
+<span style="color: gray">
+<h2>Use</h2>
+</span>
 
 Run
 
