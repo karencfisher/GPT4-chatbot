@@ -68,6 +68,7 @@ class ChatGPT:
         to that prompt.
         '''
         text = 'Hello'
+        first_response = True
         while True:
             # update context and get prompt
             self.logger.info(f'[Human] {text}')
@@ -76,7 +77,7 @@ class ChatGPT:
             # send prompt to GPT-4
             prompt = self.context.get_prompt()
             ai_text, n_tokens = self.__prompt_gpt(prompt)
-            ai_text_filter = self.filterResponse(ai_text)
+            ai_text_filter = self.filterResponse(ai_text, ignore=first_response)
 
             # speak and log response
             if self.voice:
@@ -84,6 +85,7 @@ class ChatGPT:
             else:
                 print(f'\r{ai_text_filter}')
             self.logger.info(f'[AI] {ai_text_filter}')
+            first_response = False
 
             # update context. If first two iterations, store as pretext
             # (pinned messages). 
@@ -130,7 +132,7 @@ class ChatGPT:
         with open('chat_user_profile.json', 'w') as PROFILE:
             json.dump(self.__profile, PROFILE)
 
-    def filterResponse(self, text):
+    def filterResponse(self, text, ignore=False):
         # extract kv_pair if found
         pattern = re.compile(r'{(?:[^{}]|((?:{[^{}]*})+))*}')
         match = pattern.search(text)
@@ -142,7 +144,8 @@ class ChatGPT:
             
             # Add the key/value pair to data structure (for now just
             # accumulate them)
-            self.memories.append(kv_pairs)
+            if not ignore:
+                self.memories.append(kv_pairs)
         return re.sub(pattern, '', text).strip()
 
     def __prompt_gpt(self, prompt):
