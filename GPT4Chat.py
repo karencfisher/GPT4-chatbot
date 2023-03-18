@@ -112,27 +112,46 @@ class ChatGPT:
         print('\rExiting...')
 
     def update_profile(self, memories):
+        '''
+        Consolidates new information into use profile
+
+        Input: memories - list of JSON snippets with key/value pairs
+        '''
         for memory in memories:
             memory_dict = json.loads(memory)
             for key in memory_dict.keys():
                 value = memory_dict[key]
                 try:
+                    # if key exists, add value to it to a list
                     if self.__profile.get(key) is not None:
                         if not isinstance(self.__profile[key], list):
                             self.__profile[key] = [self.__profile[key]]
                         self.__profile[key].append(value)
                     else:
+                        # add it to the dictionary. If contains CSV, change to
+                        # list if need be
                         if isinstance(value, str):
                             if not isinstance(value, list):
                                 value = value.split(', ') if ',' in value else value
                         self.__profile[key] = value
                 except:
+                    # log error and continue
                     self.logger.info(f'Error storing memory {memory}')
                     continue
         with open('chat_user_profile.json', 'w') as PROFILE:
             json.dump(self.__profile, PROFILE)
 
     def filterResponse(self, text, ignore=False):
+        '''
+        Extract JSON snippets from responses. Those are stored (unless
+        ignore = True), and the rest of the response is returned.
+
+        Input: text - string, AI's raw response
+               ignore - boolean, True if the information should be ignored,
+                        Default is False.
+
+        Returns filtered reponse.
+        '''
         # extract kv_pair if found
         pattern = re.compile(r'{(?:[^{}]|((?:{[^{}]*})+))*}')
         match = pattern.search(text)
@@ -173,11 +192,15 @@ class ChatGPT:
 
 
 def main():
+    # default program parameters
     args = {'novoice': False,
             'debug': False}
+    
+    # get any command line arguments and update program parameters
     if len(sys.argv) > 1:
         for arg in sys.argv[1:]:
             if not arg in list(args.keys()):
+                # unrecognized argument, provide message and quit
                 print(f'{arg} unrecognized argument')
                 return
             args[arg] = True
