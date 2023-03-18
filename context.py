@@ -30,6 +30,9 @@ class Context:
                            (self.__num_pretext_tokens + self.__num_response_tokens))
 
     def profile_text(self, profile):
+        '''
+        Legacy method for ChatGPT version. Not invoked for GPT4 version.
+        '''
         # Unpack dictionary to text version of profile
         items = [f'{key}: {value}' for key, value in profile.items()]
         profile_txt = '\n'.join(items)
