@@ -2,7 +2,13 @@
 <h1>Voice chatbot application using GPT-4</h1>
 </span>
 
-Evolving chatbot program using OpenAI's GPT-4 API
+Evolving chatbot program now updated to use OpenAI's GPT-4 API. 
+
+Currently, we are working on extracting user information from conversation,
+which then expands the user profile. This way the language model will have some information from previous sessions, providing some degree
+of long term memory. GPT-4 is prompted to extract that information and include it in snippets of JSON, key/value pairs. The software then
+strips those out from the response, and updates the profile information (currently as a Python dictionary). It is then serialized as JSON
+and the user profile file is updated.
 
 <span style="color: gray">
 <h2>Installation</h2>
