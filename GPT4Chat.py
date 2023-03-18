@@ -24,7 +24,9 @@ from tts import Text2Speech
 
 
 class ChatGPT:
-    def __init__(self, logger):
+    def __init__(self, logger, voice=True, debug=False):
+        self.voice = voice
+        self.debug = debug
         # fetch API key from environment
         load_dotenv()
         self.secret_key = os.getenv('SECRET_KEY')
@@ -58,7 +60,7 @@ class ChatGPT:
         self.logger = logger
         self.logger.info("*Begin log*\n")
 
-    def loop(self, voice=True):
+    def loop(self):
         '''
         The main loop
 
@@ -77,7 +79,7 @@ class ChatGPT:
             ai_text_filter = self.filterResponse(ai_text)
 
             # speak and log response
-            if voice:
+            if self.voice:
                 self.tts.speak(ai_text_filter)
             else:
                 print(f'\r{ai_text_filter}')
@@ -94,12 +96,13 @@ class ChatGPT:
                 break
 
             # Listen for user input
-            if voice:
+            if self.voice:
                 text = self.recog.speech_to_text()
             else:
                 text = input('>> ')
 
-        self.logger.info(f'Extracted info: {self.memories}')
+        if self.debug:
+            self.logger.info(f'Extracted info: {self.memories}')
         self.logger.info('\n*End log*')
 
         # update profile
@@ -110,8 +113,6 @@ class ChatGPT:
         for memory in memories:
             memory_dict = json.loads(memory)
             for key in memory_dict.keys():
-                if  key == 'context':
-                    continue
                 value = memory_dict[key]
                 try:
                     if self.__profile.get(key) is not None:
@@ -135,8 +136,9 @@ class ChatGPT:
         match = pattern.search(text)
         if match:
             kv_pairs = match.group()
-            self.logger.info(f"Key/value pairs extracted: {kv_pairs}")
-            print(f"{kv_pairs}")
+            if self.debug:
+                self.logger.info(f"Key/value pairs extracted: {kv_pairs}")
+                print(f"{kv_pairs}")
             
             # Add the key/value pair to data structure (for now just
             # accumulate them)
@@ -168,10 +170,14 @@ class ChatGPT:
 
 
 def main():
+    args = {'novoice': False,
+            'debug': False}
     if len(sys.argv) > 1:
-        voice = sys.argv[1] != 'novoice'
-    else:
-        voice = True
+        for arg in sys.argv[1:]:
+            if not arg in list(args.keys()):
+                print(f'{arg} unrecognized argument')
+                return
+            args[arg] = True
 
     # initialize logging
     now = datetime.now()
@@ -184,8 +190,10 @@ def main():
 
     # Inistantiate GPTChat and run loop
     print('Initializing...', end='')
-    gpt_chat = ChatGPT(logger)
-    gpt_chat.loop(voice=voice)
+    gpt_chat = ChatGPT(logger, 
+                       voice=not args['novoice'], 
+                       debug=args['debug'])
+    gpt_chat.loop()
 
 
 if __name__ == '__main__':
