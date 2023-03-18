@@ -103,19 +103,19 @@ prefer: see the pyttsx3 documentation linked above.
 ```
 {"name": "Karen",
  "Location": "Moab",
- "Occupatin": "Software Engineer"}
+ "Occupation": "Software Engineer"}
 ```
  
  The chatbot is programmed to then also expand the user profile with new information gleaned from the user's
  prompts. For example, once told about the user's dog, a terrier named Max, the model is instructed to extract
- information into a machine readable form (a JSON snippet). The program strips that information from the
- model's response and stored, passing through the rest of the model's response to the user. At then end of
- the session adds the new information to the user profile, so as to provide a limited sense of long term memory.
+ that information into a machine readable form (a JSON snippet). The program strips that information from the
+ model's response and it is stored, passing through the rest of the model's response to the user. At then end of
+ the session it adds the new information to the user profile, so as to provide a limited form of long term memory.
  
  ```
 {"name": "Karen",
  "Location": "Moab",
- "Occupatin": "Software Engineer",
+ "Occupation": "Software Engineer",
  "has_dog": "yes",
  "dogs_name" "Max",
  "dog_breed": "terrier"}
