@@ -55,6 +55,9 @@ class ChatGPT:
         self.context = Context(num_response_tokens=self.config['max_tokens'], 
                                pretext=sys_prompt,
                                max_context_tokens=8192)
+        
+        self.prompt_tokens_used = 0
+        self.completion_tokens_used = 0
 
         # start log
         self.logger = logger
@@ -110,6 +113,15 @@ class ChatGPT:
         # update profile
         self.update_profile(self.memories)
         print('\rExiting...')
+        if self.config['model'] == 'gpt-3.5-turbo':
+            cost = (self.prompt_tokens_used + self.completion_tokens_used)/\
+                   1000 * .002
+        else:
+            cost = self.prompt_tokens_used / 1000 * .03 + \
+                   self.completion_tokens_used / 1000 * .06
+        print(f'Prompt tokens used: {self.prompt_tokens_used}')
+        print(f'Completion tokens used: {self.completion_tokens_used}')
+        print(f'Total price: ${cost: .2f}')
 
     def update_profile(self, memories):
         '''
@@ -196,6 +208,8 @@ class ChatGPT:
         )
         text = response.choices[0].message.content
         n_tokens = response.usage.completion_tokens
+        self.prompt_tokens_used += response.usage.prompt_tokens
+        self.completion_tokens_used += response.usage.completion_tokens
         return text, n_tokens
 
 
@@ -217,7 +231,7 @@ def main():
     now = datetime.now()
     logfile = f'gpt4chatlog-{now.strftime("%m.%d.%Y-%H.%M.%S")}.log'
     logpath = os.path.join('logs', logfile)
-    logging.basicConfig(filename=logpath, 
+    logging.basicConfig(handlers=[logging.FileHandler(logpath, 'w', 'utf-8')], 
                         level=logging.INFO, 
                         format='%(message)s')
     logger = logging.getLogger()

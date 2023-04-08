@@ -1,0 +1,15 @@
+Imported existing <module 'comtypes.gen' from 'C:\\Users\\karen\\myprojects\\chatgpt-chatbot\\chat-env\\lib\\site-packages\\comtypes\\gen\\__init__.py'>
+Using writeable comtypes cache directory: 'C:\Users\karen\myprojects\chatgpt-chatbot\chat-env\lib\site-packages\comtypes\gen'
+*Begin log*
+
+[Human] Hello
+Key/value pairs extracted: {"name": "Karen"}
+[AI] Hi Karen! How are you doing today?
+[Human] I am fine, thankyou. And you?
+Key/value pairs extracted: {"response": "I am fine"}
+[AI] I'm doing great, thank you for asking! What have you been up to lately?
+[Human] I am working on my current project.
+Key/value pairs extracted: {"activity": "Working on current project"}
+[AI] That sounds very interesting. What is your project about?
+[Human] I am still working on my chatbot program, as before
+error_code=None error_message='That model is currently overloaded with other requests. You can retry your request, or contact us through our help center at help.openai.com if the error persists. (Please include the request ID b284f76a61044683f6cd9f2a73d5c59a in your message.)' error_param=None error_type=server_error message='OpenAI API error received' stream_error=False
