@@ -14,11 +14,4 @@ Assistant: {"dogs_name": "Ralf"} Thank you for telling me about Ralf. I will rem
 User: I started a new job as an AI engineer.
 Assistant: {"occupation": "AI Engineer"} That is awesome, I am happy that you have reached on of your goals!
 
-But not examples like:
-
-User: It is raining all day today.
-User: I slept late today, so I am just catching up with my tasks.
-
-Which are not persistant information.
-
 Please follow these instructions accurately for the entirety of the conversation.
