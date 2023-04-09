@@ -1,0 +1,2 @@
+Merge the following changes to the user profile, and only respond with the 
+final updated profile JSON.

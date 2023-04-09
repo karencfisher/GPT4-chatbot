@@ -114,6 +114,7 @@ class ChatGPT:
         if len(self.memories) > 0:
             self.update_profile()
 
+        # print exiting and token usages and cost estimate
         print('\rExiting...')
         if self.config['model'] == 'gpt-3.5-turbo':
             cost = (self.prompt_tokens_used + self.completion_tokens_used)/\
@@ -160,8 +161,11 @@ class ChatGPT:
         do it for us?
         '''
         prompt_content = f'Current user profile:\n{self.__profile_JSON}'
-        prompt_content += 'Merge the following changes to the user profile, and only '
-        prompt_content += 'respond with the final updated profile JSON.'
+
+        with open('gpt4_merge_instructions.txt', 'r') as FILE:
+            merge_instructions = FILE.read()
+        prompt_content += f'\n{merge_instructions}'
+        
         prompt_content += f'\n{self.memories}'
         prompt = [{'role':'user', 'content': prompt_content}]
         new_profile, _ = self.__prompt_gpt(prompt)
