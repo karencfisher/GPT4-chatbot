@@ -110,8 +110,10 @@ class ChatGPT:
             self.logger.info(f'Extracted info: {self.memories}')
         self.logger.info('\n*End log*')
 
-        # update profile
-        self.update_profile(self.memories)
+        # update profile (is anything is being added)
+        if len(self.memories) > 0:
+            self.update_profile()
+
         print('\rExiting...')
         if self.config['model'] == 'gpt-3.5-turbo':
             cost = (self.prompt_tokens_used + self.completion_tokens_used)/\
@@ -123,44 +125,7 @@ class ChatGPT:
         print(f'Completion tokens used: {self.completion_tokens_used}')
         print(f'Total price: ${cost: .2f}')
 
-    def update_profile(self, memories):
-        '''
-        Consolidates new information into user profile
-
-        Input: memories - list of JSON snippets with key/value pairs
-        '''
-        for memory in memories:
-            memory_dict = json.loads(memory)
-            for key in memory_dict.keys():
-                value = memory_dict[key]
-                try:
-                    # if key exists, add value to it to a list. (If duplicate,
-                    # ignore.)
-                    if self.__profile.get(key) is not None:
-                        # first check for duplicate
-                        if (value == self.__profile.get(key) or
-                            (isinstance(self.__profile.get(key), list) and 
-                                value in self.__profile.get(key))):
-                            continue
-                        
-                        # add as list item
-                        if not isinstance(self.__profile[key], list):
-                            self.__profile[key] = [self.__profile[key]]
-                        self.__profile[key].append(value)
-                    else:
-                        # add it to the dictionary. If contains CSV, change to
-                        # list if need be
-                        if isinstance(value, str):
-                            if not isinstance(value, list):
-                                value = value.split(', ') if ',' in value else value
-                        self.__profile[key] = value
-                except:
-                    # log error and continue
-                    self.logger.info(f'Error storing memory {memory}')
-                    continue
-        with open('chat_user_profile.json', 'w') as PROFILE:
-            json.dump(self.__profile, PROFILE)
-
+    
     def filterResponse(self, text, ignore=False):
         '''
         Extract JSON snippets from responses. Those are stored (unless
@@ -186,7 +151,30 @@ class ChatGPT:
             if not ignore:
                 self.memories.append(kv_pairs)
         return re.sub(pattern, '', text).strip()
+    
+    def update_profile(self):
+        '''
+        Merge new information into the profile
 
+        We could write a bunch of code to do this, but why not just have GPT-4
+        do it for us?
+        '''
+        prompt_content = f'Current user profile:\n{self.__profile_JSON}'
+        prompt_content += 'Merge the following changes to the user profile, and only '
+        prompt_content += 'respond with the final updated profile JSON.'
+        prompt_content += f'\n{self.memories}'
+        prompt = [{'role':'user', 'content': prompt_content}]
+        new_profile, _ = self.__prompt_gpt(prompt)
+        
+        if self.debug:
+            print(f'\rUpdated profile:\n{new_profile}')
+            self.logger.info(f'Updated profile:\n{new_profile}')
+        else:
+            print(f'\rUpdated profile')
+
+        with open('chat_user_profile.json', 'w') as FILE:
+            FILE.write(new_profile)
+    
     def __prompt_gpt(self, prompt):
         '''
         Prompt GPT-3

@@ -1,0 +1,35 @@
+Imported existing <module 'comtypes.gen' from 'C:\\Users\\karen\\Anaconda3\\lib\\site-packages\\comtypes\\gen\\__init__.py'>
+Using writeable comtypes cache directory: 'C:\Users\karen\Anaconda3\lib\site-packages\comtypes\gen'
+*Begin log*
+
+[Human] Hello
+Key/value pairs extracted: {"name": "Karen", "age": 64, "location": "Moab"}
+[AI] Hi Karen! How's life treating you in Moab?
+[Human] It is treating me fine. I was just chilling with my cat.
+Key/value pairs extracted: {"cats_name": "unknown"}
+[AI] That's nice! What's your cat's name?
+[Human] Her name is Nyima. She is an orange tabby.
+Key/value pairs extracted: {"cats_name": "Nyima", "cat_breed": "orange tabby"}
+[AI] Aww, Nyima sounds adorable! I bet she's great company.
+[Human] She is my little buddy. I've had her for 11 years now. I go her as a tiny kitten with big ears.
+Key/value pairs extracted: {"cat_age": 11, "cat_origin": "kitten with big ears"}
+[AI] Wow, 11 years! It's amazing how pets become such an important part of our lives. Nyima must be very special to you.
+[Human] She is
+[AI] I'm glad you have such a wonderful companion in Nyima. Pets can bring so much joy and comfort to our lives.
+[Human] They certainly do.
+[AI] Absolutely! If you have any stories or experiences with Nyima that you'd like to share, I'm all ears!
+[Human] goodbye
+[AI] Goodbye, Karen! Have a great time with Nyima. If you want to chat again, I'll be here. Take care!
+Extracted info: ['{"cats_name": "unknown"}', '{"cats_name": "Nyima", "cat_breed": "orange tabby"}', '{"cat_age": 11, "cat_origin": "kitten with big ears"}']
+
+*End log*
+Updated profile:
+{
+  "name": "Karen",
+  "age": 64,
+  "location": "Moab",
+  "cats_name": "Nyima",
+  "cat_breed": "orange tabby",
+  "cat_age": 11,
+  "cat_origin": "kitten with big ears"
+}
