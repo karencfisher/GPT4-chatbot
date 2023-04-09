@@ -17,7 +17,7 @@ Assistant: {"occupation": "AI Engineer"} That is awesome, I am happy that you ha
 But not examples like:
 
 User: It is raining all day today.
-User: I slept late today, so I am just catching up woth my tasks.
+User: I slept late today, so I am just catching up with my tasks.
 
 Which are not persistant information.
 
