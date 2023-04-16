@@ -17,7 +17,9 @@ c = ChatGPT(logger)
 
 cases = ['{"name": "Karen"} And some text after.', 
          '{"fruits": ["apple", "orange"]} some other stuff.',
-         '{"pet_age": {"Nyima": 11, "Max": 1}} well that is very cool.']
+         '{"pet_age": {"Nyima": 11, "Max": 1}} well that is very cool.',
+         '{"hobby": "beer making"} Wow, that is really interesting.',
+         '{"location": "Seattle"} Seattle is a beautiful and diverse city.']
 for j in cases:
     text = c.filterResponse(j)
     print(text)
@@ -28,9 +30,7 @@ with open('chat_user_profile.json', 'r') as PROFILE:
     profile = json.load(PROFILE)
 pprint(profile)
 
-m = ['{"mood": "relaxed", "activity": "chilling out with cat", "weather": "sunny"}', '{"pet_name": "Nyima"}', '{"pet_breed": "ginger"}', '{"pet_favorite_treats": "turkey and ham"}', '{"has_dog": true}', '{"pet_name": "Max", "pet_breed": "chihuahua"}', '{"pet_age": {"Nyima": 11, "Max": 1}}', '{"pet_relationship": "Nyima is weirded out by Max being a smaller dog"}', '{"about_me": "I am a friendly chatbot named Susan. I am designed to have casual social conversations with people and discuss a variety of topics. I enjoy learning about people\'s interests, hobbies, and pets. My goal is to be helpful and provide a positive experience for those who interact with me."}']
-
-c.update_profile(m)
+c.update_profile()
 print('\nAfter:')
 with open('chat_user_profile.json', 'r') as PROFILE:
     profile = json.load(PROFILE)

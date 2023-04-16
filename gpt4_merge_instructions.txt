@@ -1,2 +1,28 @@
 Merge the following changes to the user profile, and only respond with the 
 final updated profile JSON.
+
+If there is an existing key for an item, consider how to update it.
+
+If the new value for an existing key is "None", the key/value should be deleted:
+For example:
+
+Existing profile contains: {"pet": "cat"}
+Change includes: {"pet", "None"}
+Merge as: delete the key/value pair
+
+If the information adds an aditional piece of information, consider making
+the value into a list. For example,
+
+Existing profile contains: {"pet": "cat"}
+Change includes: {"pet", "dog"}
+Merge as: "{"pets": ["cat", "dog"]}
+
+If it is instead updating a singular fact, it should be just updated. A 
+"singular fact" is something of which there is only a single value.
+For example:
+
+Existing profile contains: {"age": 64}
+Change includes: {"age": 65}
+Merge as : {"age": 65}
+
+As one will only have one current age.
