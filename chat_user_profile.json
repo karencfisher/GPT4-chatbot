@@ -6,6 +6,5 @@
   "cat_breed": "orange tabby",
   "cat_age": 11,
   "cat_origin": "kitten with big ears",
-  "hobby": "meditation",
-  "fruits": ["apple", "orange"]
+  "hobby": "meditation"
 }
