@@ -160,14 +160,15 @@ class ChatGPT:
         We could write a bunch of code to do this, but why not just have GPT-4
         do it for us?
         '''
-        prompt_content = f'Current user profile:\n{self.__profile_JSON}'
 
+        # Get merge instructions to be 'ysystem' prompt
         with open('gpt4_merge_instructions.txt', 'r') as FILE:
             merge_instructions = FILE.read()
-        prompt_content += f'\n{merge_instructions}'
-        
-        prompt_content += f'\n{self.memories}'
-        prompt = [{'role':'user', 'content': prompt_content}]
+        prompt = [{'role': 'system', 'content': merge_instructions}]
+
+        prompt_content = f'Current user profile:\n{self.__profile_JSON}'
+        prompt_content += f'\n\nChanges to be merged:\n{self.memories}'
+        prompt.append({'role': 'user', 'content': prompt_content})
         new_profile, _ = self.__prompt_gpt(prompt)
         
         if self.debug:

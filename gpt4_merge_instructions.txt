@@ -1,14 +1,7 @@
-Merge the following changes to the user profile, and only respond with the 
+Merge the changes provided to the user profile, and only respond with the 
 final updated profile JSON.
 
 If there is an existing key for an item, consider how to update it.
-
-If the new value for an existing key is "None", the key/value should be deleted:
-For example:
-
-Existing profile contains: {"pet": "cat"}
-Change includes: {"pet", "None"}
-Merge as: delete the key/value pair
 
 If the information adds an aditional piece of information, consider making
 the value into a list. For example,
@@ -24,6 +17,12 @@ For example:
 Existing profile contains: {"age": 64}
 Change includes: {"age": 65}
 Merge as : {"age": 65}
-
 As one will only have one current age.
+
+If the new value for an existing key is "None", the key/value should be deleted:
+For example:
+
+Existing profile contains: {"dogs_name": "Max"}
+Change includes: {"dogs_name", "None"}
+Merge as: delete the key/value pair
 

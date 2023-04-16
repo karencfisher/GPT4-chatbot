@@ -15,10 +15,7 @@ logging.basicConfig(filename=logpath,
 logger = logging.getLogger()
 c = ChatGPT(logger)
 
-cases = ['{"name": "Karen"} And some text after.', 
-         '{"fruits": ["apple", "orange"]} some other stuff.',
-         '{"pet_age": {"Nyima": 11, "Max": 1}} well that is very cool.',
-         '{"hobby": "beer making"} Wow, that is really interesting.',
+cases = ['{"hobby": "beer making"} Wow, that is really interesting.',
          '{"location": "Seattle"} Seattle is a beautiful and diverse city.']
 for j in cases:
     text = c.filterResponse(j)
