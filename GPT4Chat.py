@@ -23,7 +23,7 @@ from vosk_recognizer import SpeechRecognize
 from tts import Text2Speech
 
 
-class ChatGPT:
+class GPT4Chat:
     def __init__(self, logger, voice=True, debug=False):
         self.voice = voice
         self.debug = debug
@@ -231,7 +231,7 @@ def main():
 
     # Inistantiate GPTChat and run loop
     print('Initializing...', end='')
-    gpt_chat = ChatGPT(logger, 
+    gpt_chat = GPT4Chat(logger, 
                        voice=not args['novoice'], 
                        debug=args['debug'])
     gpt_chat.loop()
