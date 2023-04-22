@@ -1,3 +1,4 @@
+Updated user profile:
 {
   "name": "Karen",
   "age": 64,
@@ -5,6 +6,7 @@
   "cats_name": "Nyima",
   "cat_breed": "orange tabby",
   "cat_age": 11,
-  "cat_origin": "kitten with big ears",
-  "hobby": "meditation"
+  "hobby": "meditation",
+  "interest": "artificial intelligence",
+  "certificate": "Artificial Intelligence"
 }

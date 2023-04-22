@@ -54,7 +54,7 @@ class ChatGPT:
 
         self.context = Context(num_response_tokens=self.config['max_tokens'], 
                                pretext=sys_prompt,
-                               max_context_tokens=8192)
+                               max_context_tokens=self.config['context_size'])
         
         self.prompt_tokens_used = 0
         self.completion_tokens_used = 0
