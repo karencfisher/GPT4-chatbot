@@ -1,11 +1,11 @@
 {
   "name": "Karen",
   "age": 64,
-  "location": "Moab",
+  "location": "Seattle",
   "cats_name": "Nyima",
   "cat_breed": "orange tabby",
   "cat_age": 11,
-  "hobby": "meditation",
+  "hobby": ["meditation", "beer making"],
   "interest": "artificial intelligence",
   "certificate": "Artificial Intelligence"
 }

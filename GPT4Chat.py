@@ -142,7 +142,7 @@ class GPT4Chat:
         match = pattern.search(text)
         if match:
             kv_pairs = match.group()
-            if self.debug:
+            if self.debug and not ignore:
                 self.logger.info(f"Key/value pairs extracted: {kv_pairs}")
                 print(f"{kv_pairs}")
             
