@@ -46,7 +46,7 @@ pip -r requirements.txt
 ```
 
 4) If you do not already have an account to use the OpenAI API, you will need to do so. You 
-will initially have $18 credit for usage, which is good for 3 months. If you have used the
+will initially have $5 credit for usage, which is good for 3 months. If you have used the
 free credits or they have expired after 3 months (which ever happens first), you will need to 
 set up a paid account. 
 
