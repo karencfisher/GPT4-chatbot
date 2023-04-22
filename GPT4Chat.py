@@ -80,7 +80,7 @@ class GPT4Chat:
             # send prompt to GPT-4
             prompt = self.context.get_prompt()
             ai_text, n_tokens = self.__prompt_gpt(prompt)
-            ai_text_filter = self.filterResponse(ai_text, ignore=first_response)
+            ai_text_filter, _ = self.filterResponse(ai_text, ignore=first_response)
 
             # speak and log response
             if self.voice:
@@ -151,7 +151,7 @@ class GPT4Chat:
             # accumulate them)
             if not ignore:
                 self.memories.append(kv_pairs)
-        return re.sub(pattern, '', text).strip()
+        return re.sub(pattern, '', text).strip(), match.group()
     
     def update_profile(self):
         '''
@@ -170,6 +170,7 @@ class GPT4Chat:
         prompt_content += f'\n\nChanges to be merged:\n{self.memories}'
         prompt.append({'role': 'user', 'content': prompt_content})
         new_profile, _ = self.__prompt_gpt(prompt)
+        _, new_profile = self.filterResponse(new_profile, ignore=True)
         
         if self.debug:
             print(f'\rUpdated profile:\n{new_profile}')
