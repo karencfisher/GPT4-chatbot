@@ -126,7 +126,6 @@ class GPT4Chat:
         print(f'Completion tokens used: {self.completion_tokens_used}')
         print(f'Total price: ${cost: .2f}')
 
-    
     def filterResponse(self, text, ignore=False):
         '''
         Extract JSON snippets from responses. Those are stored (unless
