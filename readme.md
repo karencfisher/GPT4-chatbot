@@ -66,6 +66,8 @@ https://beta.openai.com/account/api-keys
 SECRET_KEY = '<your secret key>'
 ```
 
+(Replacing <your secret key> with your actual key.)
+
 <span style="color: gray">
 <h2>Configuration</h2>
 </span>
