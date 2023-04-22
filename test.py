@@ -1,4 +1,4 @@
-from GPT4Chat import ChatGPT
+from GPT4Chat import GPT4Chat
 import logging
 from datetime import datetime
 import os
@@ -13,7 +13,7 @@ logging.basicConfig(filename=logpath,
                     level=logging.INFO, 
                     format='%(message)s')
 logger = logging.getLogger()
-c = ChatGPT(logger)
+c = GPT4Chat(logger)
 
 cases = ['{"hobby": "beer making"} Wow, that is really interesting.',
          '{"location": "Seattle"} Seattle is a beautiful and diverse city.']
