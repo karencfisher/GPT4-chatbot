@@ -87,7 +87,7 @@ There are four configuration files:
  ```
 
 **vosk_config.json:** settings for vosk speech recognition. These have technical details like bit rate and buffer sizes, and likely
-won't need to be change often. But they are exposed for the brave.
+won't need to be changed often. But they are exposed for the brave.
 
 ```
 {"model": "vosk-model-small-en-us-0.15",
@@ -117,7 +117,8 @@ prefer: see the pyttsx3 documentation linked above.
  prompts. For example, once told about the user's dog, a terrier named Max, the model is instructed to extract
  that information into a machine readable form (a JSON snippet). The program strips that information from the
  model's response and it is stored, passing through the rest of the model's response to the user. At then end of
- the session it adds the new information to the user profile, so as to provide a limited form of long term memory.
+ the session it tasks GPT-4 to merge the new information to the user profile, so as to provide a limited form 
+ of long term memory. 
  
  ```
 {"name": "Karen",
@@ -128,6 +129,9 @@ prefer: see the pyttsx3 documentation linked above.
  "dog_breed": "terrier"}
 ```
 
+ During future chat's GPT-4 may, for example, refer to the information, such as enquiring about your dog's
+ well being by name. (How cool is that?)
+ 
 **gpt4-system_prompt.txt:** This is the prompt engineering for the model. It can define parameters for the model,
 such as its role, persona, tone, and so forth, as well as instructing it for specific tasks, such as extracting
 new user information. User information is extracted as key/value pairs which the application pulls from the model's
