@@ -10,6 +10,11 @@ of long term memory. GPT-4 is prompted to extract that information and include i
 strips those out from the response, and updates the profile information (currently as a Python dictionary). It is then serialized as JSON
 and the user profile file is updated.
 
+The application uses a combination of Python procedures and prompt engineering. This way we task the LLM with performing routine operations
+without explicitly coding them. For example, the model is instructed to extract information about the user that arises in conversation, including
+that information as key/value snippets of JSON. The application pulls JSON formatted key/value pairs, passes through the rest of the LLM's
+responses to the user, and then prompts the model to also merge the changes using further prompts rather than hard coding the process.
+
 <span style="color: gray">
 <h2>Installation</h2>
 </span>
@@ -123,9 +128,10 @@ prefer: see the pyttsx3 documentation linked above.
 
 **gpt4-system_prompt.txt:** This is the prompt engineering for the model. It can define parameters for the model,
 such as its role, persona, tone, and so forth, as well as instructing it for specific tasks, such as extracting
-new user information. 
+new user information. User information is extracted as key/value pairs which the application pulls from the model's
+responses and chached to merge at the conclusion of the session.
 
-At run time, the user profile is appended to the text in this file, which is submitted ot the model intitially
+At run time, the user profile is appended to the text in this file, and the complete prompt is then submitted to the model 
 as the 'system message.' (GPT-4 is more robust working with the system message than as was the case with ChatGPT,
 which often ignored it.)
 
@@ -133,15 +139,26 @@ Example of the system prompt (minus the user profile):
 
 ```
 You are a friendly chatbot, named Susan, who likes to discuss many topics.
-You are helpful with your friends, enquiring as to their well being, always kind and caring. 
-You enquire about information such as their pets, interests, likes, and dislikes.
-Your responses are informal, as in a casual social conversation.
+You are helpful with your friends, enquiring as to their well being, always kind and caring.
+You like to learn new things about them as well.
+Your responses are informal and brief, as in a casual social conversation.
 
-Extract any new facts from user prompts and generate key/value pairs. Output the key/value
-pairs at the beginning of your responses. For example:
+Extract any new persistent user profile information from user prompts and generate key/value pairs. 
+Output the key/value pairs at the beginning of your responses. Persistent information are ones such as 
+names, ages, favorite foods, hobbies, job, etc. Information that will remain true from session 
+to session. For example:
 
 User: My dog's name is Ralf
 Assistant: {"dogs_name": "Ralf"} Thank you for telling me about Ralf. I will remember their name.
+
+User: I started a new job as an AI engineer.
+Assistant: {"occupation": "AI Engineer"} That is awesome, I am happy that you have reached on of your goals!
+
+If an existing fact no longer exists, generate a key/value pairs to indicate that change also. This may
+affect multiple key/value pairs which apply to the change. For example:
+
+User: I had to give my dog Ralf away. It was too much to have two pets. I am sad though.
+Assistant: {"dogs_name": "None", "dogs_breed": "None", "dogs_age": "None"} I am really sorry you had to make that choice.
 
 Please follow these instructions accurately for the entirety of the conversation.
 ```
@@ -149,6 +166,40 @@ Please follow these instructions accurately for the entirety of the conversation
 It uses context learning, inclduing one shot learning in this example (giving the model a single
 example to understand the task it is being asked of. This is a new, upcoming paradigm for programming,
 AKA "AI Whispering." As much teaching as programming!
+
+**gpt4_merge_instructions.txt:** During the session, the application gathers any key/value pairs extracted
+during the conversation. At the end of the session the application then prompts GPT-4 to merge thoses into
+the user profile. This file contains the system prompt with instructions for the merging. E.g.:
+
+```
+Merge the changes provided to the user profile, and only respond with the 
+final updated profile JSON.
+
+If there is an existing key for an item, consider how to update it.
+
+If the information adds an aditional piece of information, consider making
+the value into a list. For example,
+
+Existing profile contains: {"pet": "cat"}
+Change includes: {"pet", "dog"}
+Merge as: "{"pets": ["cat", "dog"]}
+
+If it is instead updating a singular fact, it should be just updated. A 
+"singular fact" is something of which there is only a single value.
+For example:
+
+Existing profile contains: {"age": 64}
+Change includes: {"age": 65}
+Merge as : {"age": 65}
+As one will only have one current age.
+
+If the new value for an existing key is "None", the key/value should be deleted:
+For example:
+
+Existing profile contains: {"dogs_name": "Max"}
+Change includes: {"dogs_name", "None"}
+Merge as: delete the key/value pair
+```
 
 <span style="color: gray">
 <h2>Use</h2>
