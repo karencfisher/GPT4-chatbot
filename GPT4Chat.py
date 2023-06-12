@@ -150,7 +150,8 @@ class GPT4Chat:
             # accumulate them)
             if not ignore:
                 self.memories.append(kv_pairs)
-        return re.sub(pattern, '', text).strip(), match.group()
+            return re.sub(pattern, '', text).strip(), match.group()
+        return re.sub(pattern, '', text).strip(), None
     
     def update_profile(self):
         '''
@@ -159,6 +160,9 @@ class GPT4Chat:
         We could write a bunch of code to do this, but why not just have GPT-4
         do it for us?
         '''
+
+        if len(self.memories) == 0:
+            return
 
         # Get merge instructions to be 'ysystem' prompt
         with open('gpt4_merge_instructions.txt', 'r') as FILE:
@@ -171,14 +175,15 @@ class GPT4Chat:
         new_profile, _ = self.__prompt_gpt(prompt)
         _, new_profile = self.filterResponse(new_profile, ignore=True)
         
-        if self.debug:
-            print(f'\rUpdated profile:\n{new_profile}')
-            self.logger.info(f'Updated profile:\n{new_profile}')
-        else:
-            print(f'\rUpdated profile')
+        if new_profile is not None:
+            if self.debug:
+                print(f'\rUpdated profile:\n{new_profile}')
+                self.logger.info(f'Updated profile:\n{new_profile}')
+            else:
+                print(f'\rUpdated profile')
 
-        with open('chat_user_profile.json', 'w') as FILE:
-            FILE.write(new_profile)
+            with open('chat_user_profile.json', 'w') as FILE:
+                FILE.write(new_profile)
     
     def __prompt_gpt(self, prompt):
         '''

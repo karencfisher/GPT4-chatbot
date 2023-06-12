@@ -5,7 +5,9 @@
   "cats_name": "Nyima",
   "cat_breed": "orange tabby",
   "cat_age": 11,
-  "hobby": ["meditation", "beer making"],
+  "hobby": ["meditation"],
   "interest": "artificial intelligence",
-  "certificate": "Artificial Intelligence"
+  "certificate": "Artificial Intelligence",
+  "dogs_name": "Patrick",
+  "dogs_age": 2
 }
