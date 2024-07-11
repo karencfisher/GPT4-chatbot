@@ -42,7 +42,7 @@ chat_env\scripts\activate
 3) Install dependencies using the requirements.txt file, e.g.,
 
 ```
-pip -r requirements.txt
+pip install -r requirements.txt
 ```
 
 4) If you do not already have an account to use the OpenAI API, you will need to do so. You 
